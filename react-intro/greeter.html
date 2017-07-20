@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Greeter</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		var Greeter = React.createClass({
+			onGreetClick : function(){
+				console.log('greet button clicked');
+			},
+			render : function(){
+				return(
+					<div>
+						<h1>Greeter</h1>
+						<hr/>
+						<input type="button" value="Greet" onClick={this.onGreetClick}/>
+						<div>[Message goes here]</div>
+					</div>
+				);
+			}
+		});
+		ReactDOM.render(<Greeter></Greeter>, document.getElementById('content'));
+	</script>
+</head>
+<body>
+	<div id="content">
+		
+	</div>
+</body>
+</html>

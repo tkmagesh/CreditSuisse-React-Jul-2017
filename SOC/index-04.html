@@ -31,14 +31,18 @@
 				this.tax = 0;
 				this.salary = 0;
 
-				this.onSalaryChange = null;
+				this.salaryChangeCallbacks = [];
+			}
+			subscribe(callbackFn){
+				this.salaryChangeCallbacks.push(callbackFn)
 			}
 			calculate(){
 				let gross = this.basic + this.hra + this.da;
 				let net = gross * ((100-this.tax)/100);
 				this.salary = net;
-				if (typeof this.onSalaryChange === 'function')
-					this.onSalaryChange();
+				this.salaryChangeCallbacks.forEach(function(callback){
+					callback();
+				});
 			}
 		}
 		//View
@@ -64,17 +68,15 @@
 
 			$('#btnCalculate').click(function(){
 				calculator.calculate();
-
-				
 			});
 
 			$('#rangeTax').change(function(){
 				$('#spanTax').html($('#rangeTax').val());
 			});
 
-			calculator.onSalaryChange = function(){
+			calculator.subscribe(function(){
 				$('#divResult').html(calculator.salary);
-			}
+			})
 		})
 	</script>
 </head>

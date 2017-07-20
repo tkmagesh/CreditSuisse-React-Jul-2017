@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+
+	<style>
+		.field{
+			margin-bottom: 10px;
+		}
+		label{
+			display: block;
+		}
+		#divResult{
+			color : red;
+			font-size: 22pt;
+			font-weight: bold;
+		}
+	</style>
+	<script src="jquery.js"></script>
+	<script>
+		String.prototype.toInt = function() {
+			return parseInt(this, 10);
+		};
+		//Model
+		class SalaryCalculator{
+			constructor(){
+				this.basic = 0;
+				this.hra = 0;
+				this.da = 0;
+				this.tax = 0;
+				this.salary = 0;
+
+				this.salaryChangeCallbacks = [];
+			}
+			subscribe(callbackFn){
+				this.salaryChangeCallbacks.push(callbackFn)
+			}
+			calculate(){
+				let gross = this.basic + this.hra + this.da;
+				let net = gross * ((100-this.tax)/100);
+				this.salary = net;
+				this.salaryChangeCallbacks.forEach(function(callback){
+					callback();
+				});
+			}
+		}
+		//View
+		class SalaryCalculatorView{
+			constructor(calculator){
+				this.model = calculator;
+				this.template = `
+					<div class="content">
+						<div class="field">
+							<label for="">Basic :</label>
+							<input type="number" name="" id="txtBasic">
+						</div>
+						<div class="field">
+							<label for="">HRA :</label>
+							<input type="number" name="" id="txtHra">
+						</div>
+						<div class="field">
+							<label for="">DA :</label>
+							<input type="number" name="" id="txtDa">
+						</div>
+						<div class="field">
+							<label for="">Tax :</label>
+							<input type="range" name="" id="rangeTax" min="0" max="30" value="0">
+							<span id="spanTax">[Tax]</span>
+						</div>
+						<div class="field">
+							<input type="button" value="Calculate" id="btnCalculate">
+						</div>
+						<div class="field">
+							<div id="divResult">[Salary]</div>
+						</div>
+					</div>
+				`;
+
+				var root = this.root = $('<div></div>');
+
+				root.on('change', '#txtBasic', function(){
+					calculator.basic = $('#txtBasic', root).val().toInt();
+				});
+
+				root.on('change', '#txtHra', function(){
+					calculator.hra = $('#txtHra', root).val().toInt();
+				});
+
+				root.on('change', '#txtDa', function(){
+					calculator.da = $('#txtDa', root).val().toInt();
+				});
+
+				root.on('change', '#rangeTax', function(){
+					calculator.tax = $('#rangeTax', root).val().toInt();
+				});
+
+				root.on('click', '#btnCalculate', function(){
+					calculator.calculate();
+				});
+
+				root.on('change','#rangeTax', function(){
+					$('#spanTax', root).html($('#rangeTax', root).val());
+				});
+
+				calculator.subscribe(function(){
+					$('#divResult', root).html(calculator.salary);
+				})
+				
+			}
+			render(){
+				this.root.html(this.template);
+			}
+		}
+		/*$(function(){
+			window.calculator = new SalaryCalculator();
+
+			window.view = new SalaryCalculatorView(calculator);
+
+		})*/
+	</script>
+</head>
+<body>
+	<h1>Salary Calculator</h1>
+	<hr>
+	
+</body>
+</html>
