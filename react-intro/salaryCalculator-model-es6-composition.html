@@ -59,22 +59,27 @@
 				return (
 					<div className="field">
 						<label htmlFor="">{this.props.displayName}</label>
-						<input type="number" ref="txtValue" defaultValue={this.props.fieldValue} onChange={this.onValueChange.bind(this)} />
+						<input type="number" defaultValue={this.props.fieldValue} onChange={this.onValueChange.bind(this)} />
 					</div>
 				);
 			}
 		}
 		class RangeInput extends React.Component{
+			componentWillMount(){
+				this.setState({rangeValue : this.props.fieldValue});
+			}
+
 			onValueChange(evt){
 				var value = parseInt(evt.target.value);
 				this.props.fieldValueChange(value);
+				this.setState({rangeValue : value});
 			}
 			render(){
 				return (
 					<div className="field">
 						<label htmlFor="">Tax :</label>
-						<input type="range" ref="rangeTax" min="0" max="30" onChange={this.onValueChange.bind(this)} defaultValue={this.props.fieldValue}/>
-						<span id="spanTax">{this.props.fieldValue}</span>
+						<input type="range" min="0" max="30" onChange={this.onValueChange.bind(this)} defaultValue={this.props.fieldValue}/>
+						<span id="spanTax">{this.state.rangeValue}</span>
 					</div>
 				);
 			}
