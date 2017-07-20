@@ -53,13 +53,13 @@
 		class NumberInput extends React.Component{
 			onValueChange(evt){
 				var value = parseInt(evt.target.value);
-				//notify parent
+				this.props.fieldValueChange(value);
 			}
 			render(){
 				return (
 					<div className="field">
 						<label htmlFor="">{this.props.displayName}</label>
-						<input type="number" ref="txtValue" defaultValue={this.props.defaultValue} onChange={this.onValueChange.bind(this)} />
+						<input type="number" ref="txtValue" defaultValue={this.props.fieldValue} onChange={this.onValueChange.bind(this)} />
 					</div>
 				);
 			}
@@ -67,35 +67,31 @@
 		class RangeInput extends React.Component{
 			onValueChange(evt){
 				var value = parseInt(evt.target.value);
-				//notify parent
+				this.props.fieldValueChange(value);
 			}
 			render(){
 				return (
 					<div className="field">
 						<label htmlFor="">Tax :</label>
-						<input type="range" ref="rangeTax" min="0" max="30" onChange={this.onValueChange.bind(this)} defaultValue={this.props.defaultValue}/>
-						<span id="spanTax">[Tax]</span>
+						<input type="range" ref="rangeTax" min="0" max="30" onChange={this.onValueChange.bind(this)} defaultValue={this.props.fieldValue}/>
+						<span id="spanTax">{this.props.fieldValue}</span>
 					</div>
 				);
 			}
 		}
 		class SalaryCalculator extends React.Component{
 			
-			onBasicChange(evt){
-				var basicValue = parseInt(evt.target.value);
-				this.props.model.basic = basicValue;
+			onBasicChange(value){
+				this.props.model.basic = value;
 			}
-			onHraChange(evt){
-				var hraValue = parseInt(evt.target.value);
-				this.props.model.hra = hraValue;
+			onHraChange(value){
+				this.props.model.hra = value;
 			}
-			onDaChange(evt){
-				var daValue = parseInt(evt.target.value);
-				this.props.model.da = daValue;
+			onDaChange(value){
+				this.props.model.da = value;
 			}
-			onTaxChange(evt){
-				var taxValue = parseInt(evt.target.value);
-				this.props.model.tax = taxValue;
+			onTaxChange(value){
+				this.props.model.tax = value;
 			}
 			calculateClick(){
 				this.props.model.calculate();
@@ -104,10 +100,10 @@
 				var model = this.props.model;
 				return (
 					<div>
-						<NumberInput displayName="Basic :" defaultValue={model.basic} />
-						<NumberInput displayName="HRA :" defaultValue={model.hra} />
-						<NumberInput displayName="DA :" defaultValue={model.da} />
-						<RangeInput displayName="Tax :" defaultValue={model.tax} />
+						<NumberInput displayName="Basic :" fieldValue={model.basic} fieldValueChange={this.onBasicChange.bind(this)} />
+						<NumberInput displayName="HRA :" fieldValue={model.hra} fieldValueChange={this.onHraChange.bind(this)}/>
+						<NumberInput displayName="DA :" fieldValue={model.da} fieldValueChange={this.onDaChange.bind(this)}/>
+						<RangeInput displayName="Tax :" fieldValue={model.tax} fieldValueChange={this.onTaxChange.bind(this)}/>
 						<div className="field">
 							<input type="button" value="Calculate" onClick={this.calculateClick.bind(this)} />
 						</div>
