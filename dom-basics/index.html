@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Greet</title>
+	<script src="jquery.js"></script>
+	<script>
+		function onBtnGreetClick(){
+			var userName = $('#txtName').val();
+			$('#divMessage').html('Hi '+ userName + ', Welcome to React!');
+		}
+		$(function init(){
+			 $('#btnGreet').click(onBtnGreetClick);
+		});
+	</script>
+</head>
+<body>
+	<label for="">Name :</label>
+	<input type="text" name="" id="txtName">
+	<input type="button" value="Greet" id="btnGreet">
+	<div id="divMessage">[Message goes here]</div>
+</body>
+</html>
