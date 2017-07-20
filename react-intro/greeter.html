@@ -8,18 +8,29 @@
 	<script src="babel.min.js"></script>
 	<script type="text/babel">
 		var Greeter = React.createClass({
+			getInitialState : function(){
+				return {
+					message : '[Default Message]'
+				};
+			},
 			onGreetClick : function(){
-				console.log('greet button clicked');
+				var name = this.refs.txtName.value;
+				var greetMessage = 'Hi ' + name + ', Welcome to the world of React!!';
+				console.log(greetMessage);
+				this.setState({message : greetMessage});
 			},
 			render : function(){
-				return(
+				return (
 					<div>
 						<h1>Greeter</h1>
 						<hr/>
+						<label htmlFor="txtName" >Name :</label>
+						<input type="text" ref="txtName" />
 						<input type="button" value="Greet" onClick={this.onGreetClick}/>
-						<div>[Message goes here]</div>
+						<div>{this.state.message}</div>
 					</div>
 				);
+				
 			}
 		});
 		ReactDOM.render(<Greeter></Greeter>, document.getElementById('content'));
