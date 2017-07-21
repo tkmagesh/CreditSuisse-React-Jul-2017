@@ -8,5 +8,10 @@ import { BugsCollection } from './bug-Tracker/BugTracker';
 
 let bugs = new BugsCollection();
 
-ReactDOM.render(<App bugs={bugs}/>, document.getElementById('root'));
+function renderApp(){
+	ReactDOM.render(<App bugs={bugs}/>, document.getElementById('root'));
+}
+bugs.subscribe(renderApp);
+renderApp();
 registerServiceWorker();
+
