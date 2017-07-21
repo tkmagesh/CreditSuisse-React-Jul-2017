@@ -1,10 +1,6 @@
 export default function bugsReducer(currentState = [], action){
 	if (action.type === 'NEW_BUG'){
-		var newBug = {
-			name : action.payload,
-			isClosed : false
-		};
-		return [...currentState, newBug];
+		return [...currentState, action.payload];
 	}
 	if (action.type === 'TOGGLE_BUG'){
 		let bugToToggle = action.payload;
@@ -13,6 +9,9 @@ export default function bugsReducer(currentState = [], action){
 	}
 	if (action.type === 'REMOVE_CLOSED'){
 		return currentState.filter(bug => !bug.isClosed);
+	}
+	if (action.type === 'LOADED'){
+		return action.payload;
 	}
 	return currentState;
 }

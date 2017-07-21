@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { 
 	newBugActionCreator, 
 	toggleBugActionCreator, 
-	removeBugActionCreator
+	removeBugActionCreator,
+	loadBugActionCreator
 } from './actions';
 
 import BugStats from './BugStats';
@@ -15,6 +16,9 @@ import BugList from './BugList';
 
 
 class BugTracker extends Component{
+	componentWillMount(){
+		this.props.loadBugAction();
+	}
 	render(){
 		let { bugs, newBugAction, toggleBugAction, removeBugAction } = this.props; 
 		return(
@@ -37,7 +41,8 @@ function mapDispatchToProps(dispatch){
 	return {
 		newBugAction : newBugActionCreator(dispatch),
 		toggleBugAction : toggleBugActionCreator(dispatch),
-		removeBugAction : removeBugActionCreator(dispatch)
+		removeBugAction : removeBugActionCreator(dispatch),
+		loadBugAction : loadBugActionCreator(dispatch)
 	}
 }
 export default connect(mapStateToProps,mapDispatchToProps)(BugTracker);
