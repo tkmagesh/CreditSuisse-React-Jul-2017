@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Spinner State Manager</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<!-- <script src="state-manager.js"></script> -->
+	<script src="redux.js"></script>
+	<script type="text/babel">
+		{/*class Spinner extends React.Component{
+			render(){
+				let { store, actions } = this.props;
+				let state = store.getState();
+				return(
+					<div>
+						<input type="button" value="Decrement" onClick={() => actions.dec_action()} />
+						<span> {state} </span>
+						<input type="button" value="Increment" onClick={() => actions.inc_action()} />
+					</div>
+				)
+			}
+		}*/}
+
+		{/*let Spinner = function({ actions, currentValue }){
+			return(
+				<div>
+					<input type="button" value="Decrement" onClick={() => actions.dec_action()} />
+					<span> {currentValue} </span>
+					<input type="button" value="Increment" onClick={() => actions.inc_action()} />
+				</div>
+			)
+		};*/}
+
+		let Spinner = ({ actions, currentValue }) => (
+			<div>
+				<input type="button" value="Decrement" onClick={() => actions.dec_action()} />
+				<span> {currentValue} </span>
+				<input type="button" value="Increment" onClick={() => actions.inc_action()} />
+			</div>
+		);
+		
+		function spinnerReducer(currentState = 0, action){
+			if (action.type === 'INCREMENT')
+				return ++currentState;
+			if (action.type === 'DECREMENT')
+				return --currentState;
+			return currentState;
+		}
+		function bugsReducer(currentState=[], action){
+			return currentState;
+		}
+
+		//var store = Redux.createStore(spinnerReducer);
+		var allReducers = Redux.combineReducers({
+			spinnerState : spinnerReducer,
+			bugState : bugsReducer
+		});
+
+		var store = Redux.createStore(allReducers)
+
+		var actionCreators = function(store){
+			return {
+				inc_action : function(){
+					store.dispatch({ type : 'INCREMENT'})
+				},
+
+				dec_action : function(){
+					store.dispatch({ type : 'DECREMENT'});
+				}
+			}
+		};
+
+		var actions = actionCreators(store);
+		function renderApp(){
+			//var currentValue = store.getState();
+			var currentValue = store.getState().spinnerState;
+			ReactDOM.render(<Spinner actions={actions} currentValue={currentValue}></Spinner>, document.getElementById('content'));
+		}
+		store.subscribe(renderApp);
+		renderApp();
+	</script>
+</head>
+<body>
+	<div id="content">
+		
+	</div>
+</body>
+</html>

@@ -1,57 +1,47 @@
 import React , { Component } from 'react';
 import './BugTracker.css';
+import { connect } from 'react-redux';
+import { 
+	newBugActionCreator, 
+	toggleBugActionCreator, 
+	removeBugActionCreator
+} from './actions';
+
+import BugStats from './BugStats';
+import BugEdit from './BugEdit';
+import BugList from './BugList';
+
+
+
 
 class BugTracker extends Component{
-	onAddNewClick(){
-		var bugName = this.refs.txtBugName.value;
-		this.props.newBugAction(bugName);
-	}
-	onBugNameClick(bug){
-		this.props.toggleBugAction(bug);
-	}
 	render(){
-		let bugList = this.props.bugs;
-		let bugItems = bugList.map((bug,index) => {
-			var bugDisplay = bug.isClosed ?
-				(
-					<span className="bugname closed" onClick={this.onBugNameClick.bind(this, bug)}>
-						{bug.name}
-					</span>
-				) : 
-				(
-					<span className="bugname {closedClass}" onClick={this.onBugNameClick.bind(this, bug)}>
-						{bug.name}
-					</span>
-				);
-			return (
-				<li key={index}>
-					{ bugDisplay }
-					<div>Close -> [{bug.isClosed.toString()}]</div>
-				</li>
-			)
-		});
-		let closedCount = bugList.reduce((prevResult, bug) => bug.isClosed ? ++prevResult : prevResult, 0);
+		let { bugs, newBugAction, toggleBugAction, removeBugAction } = this.props; 
 		return(
 			<div>
-				<section className="stats">
-					<span className="closed">{closedCount}</span>
-					<span> / </span>
-					<span>{bugList.length}</span>
-				</section>
-				<section className="edit">
-					<label htmlFor="">Bug Name :</label>
-					<input type="text" ref="txtBugName" />
-					<input type="button" value="Add New" onClick={this.onAddNewClick.bind(this)}/>
-				</section>
-				<section className="list">
-					<ol>
-						{bugItems}
-					</ol>
-					<input type="button" value="Remove Closed" onClick={() => this.props.removeClosedAction()}/>
-				</section>
+				<BugStats bugs={bugs}></BugStats>
+				<BugEdit newBug={newBugAction}></BugEdit>
+				<BugList bugs={bugs} toggleBug={toggleBugAction} removeBug={removeBugAction}></BugList>
 			</div>
 		);
 	}
 }
 
-export default BugTracker;
+function mapStateToProps(state){
+	console.log('state in mapStateToProps -> ', state);
+	return {
+		bugs : state.bugs
+	};
+}
+function mapDispatchToProps(dispatch){
+	return {
+		newBugAction : newBugActionCreator(dispatch),
+		toggleBugAction : toggleBugActionCreator(dispatch),
+		removeBugAction : removeBugActionCreator(dispatch)
+	}
+}
+export default connect(mapStateToProps,mapDispatchToProps)(BugTracker);
+
+
+
+

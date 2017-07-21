@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import BugTracker from './bug-Tracker/BugTracker';
-
+import Spinner from './spinner/Spinner';
 
 class App extends Component {
   render() {
@@ -14,7 +14,9 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h2>Bug Tracker</h2>
           </div>
-          <BugTracker bugs={this.props.bugs} newBugAction={this.props.newBugAction} toggleBugAction={this.props.toggleBugAction} removeClosedAction={this.props.removeClosedAction}></BugTracker>
+          {/*<BugTracker bugs={this.props.bugs} newBugAction={this.props.newBugAction} toggleBugAction={this.props.toggleBugAction} removeClosedAction={this.props.removeClosedAction}></BugTracker>*/}
+          <Spinner></Spinner>
+          <BugTracker></BugTracker>
         </div>
         
       
