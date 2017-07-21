@@ -14,7 +14,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h2>Bug Tracker</h2>
           </div>
-          <BugTracker bugs={this.props.bugs}></BugTracker>
+          <BugTracker bugs={this.props.bugs} newBugAction={this.props.newBugAction} toggleBugAction={this.props.toggleBugAction} removeClosedAction={this.props.removeClosedAction}></BugTracker>
         </div>
         
       

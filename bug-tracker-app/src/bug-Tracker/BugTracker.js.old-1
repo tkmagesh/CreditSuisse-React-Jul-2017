@@ -1,6 +1,50 @@
 import React , { Component } from 'react';
 import './BugTracker.css';
 
+/*
+class EventEmitter{
+	constructor(){
+		this.callbacks = [];
+	}
+	subscribe(callback){
+		if (typeof callback === 'function')
+			this.callbacks.push(callback);
+	}
+	trigger(){
+		this.callbacks.forEach(callback => callback());
+	}
+}
+
+class Bug{
+	constructor(bugName){
+		this.name = bugName;
+		this.isClosed = false;
+	}
+
+	toggle(){
+		this.isClosed = !this.isClosed;
+		console.log('toggled bug -> ', this);
+	}
+}
+
+export class BugsCollection extends EventEmitter{
+	constructor(){
+		super();
+		this.list = [
+			new Bug('This is bug - 1'),
+			new Bug('This is bug - 2'),
+			new Bug('This is bug - 3')
+		];
+	}
+	getAll(){
+		return this.list;
+	}
+	addNew(bugName){
+		this.list.push(bugName);
+		this.trigger();
+	}
+}
+*/
 class BugTracker extends Component{
 	onAddNewClick(){
 		var bugName = this.refs.txtBugName.value;
