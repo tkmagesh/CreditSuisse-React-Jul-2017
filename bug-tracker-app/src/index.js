@@ -4,5 +4,9 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { BugsCollection } from './bug-Tracker/BugTracker';
+
+let bugs = new BugsCollection();
+
+ReactDOM.render(<App bugs={bugs}/>, document.getElementById('root'));
 registerServiceWorker();
