@@ -14,13 +14,25 @@ class EventEmitter{
 	}
 }
 
+class Bug{
+	constructor(bugName){
+		this.name = bugName;
+		this.isClosed = false;
+	}
+
+	toggle(){
+		this.isClosed = !this.isClosed;
+		console.log('toggled bug -> ', this);
+	}
+}
+
 export class BugsCollection extends EventEmitter{
 	constructor(){
 		super();
 		this.list = [
-			'This is bug - 1',
-			'This is bug - 2',
-			'This is bug - 3'
+			new Bug('This is bug - 1'),
+			new Bug('This is bug - 2'),
+			new Bug('This is bug - 3')
 		];
 	}
 	getAll(){
@@ -35,16 +47,20 @@ export class BugsCollection extends EventEmitter{
 class BugTracker extends Component{
 	onAddNewClick(){
 		var bugName = this.refs.txtBugName.value;
-		this.props.bugs.addNew(bugName);
+		this.props.bugs.addNew(new Bug(bugName));
 		console.log(this.props.bugs.getAll());
+	}
+	onBugNameClick(bug){
+		bug.toggle();
 	}
 	render(){
 		let bugList = this.props.bugs.getAll();
-		let bugItems = bugList.map(bug => (
-			<li>
-				<span className="bugname">
-					{bug}
+		let bugItems = bugList.map((bug,index) => (
+			<li key={index}>
+				<span className="bugname" onClick={this.onBugNameClick.bind(this, bug)}>
+					{bug.name}
 				</span>
+				<div>Close -> [{bug.isClosed.toString()}]</div>
 			</li>
 		));
 
